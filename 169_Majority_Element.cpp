@@ -14,6 +14,7 @@
 // 1 <= n <= 5 * 104
 // -109 <= nums[i] <= 109
 
+// Method 1
 class Solution
 {
 public:
@@ -34,5 +35,31 @@ public:
             }
         }
         return ans;
+    }
+};
+
+// Method 2
+class Solution {
+public:
+    int majorityElement(vector<int>& nums) 
+    {
+        int cnt = 0, ele = 0;
+        for(int i = 0; i < nums.size(); i++)
+        {
+            if(cnt == 0)
+            {
+                ele = nums[i];
+                cnt++;
+            }
+            else if(ele == nums[i])
+            {
+                cnt++;
+            }
+            else
+            {
+                cnt--;
+            }
+        }
+        return ele;
     }
 };
