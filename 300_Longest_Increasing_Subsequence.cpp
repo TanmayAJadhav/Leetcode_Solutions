@@ -29,20 +29,40 @@ public:
         // dp.resize(n,vector<int>(n+1,-1));
         // return helper(0,-1,nums);   
 
-        vector<int>dp(n,1);
-        int ans = 0;
+        vector<int>dp(n,1), hash(n);
+        int ans = 0, lastIndex = 0;
         for(int currind = 0; currind < n; currind++)
         {
+            hash[currind] = currind;
             for(int prev_ind = 0; prev_ind < currind; prev_ind++)
             {
-                if(nums[currind] > nums[prev_ind])
+                if(nums[currind] > nums[prev_ind] && 1+ dp[prev_ind] > dp[currind])
                 {
-                    dp[currind] = max(dp[currind], 1+ dp[prev_ind]);
+                    dp[currind] = 1+ dp[prev_ind];
+                    hash[currind] = prev_ind;
                 }
             }
-            ans = max(dp[currind],ans);
+            if(dp[currind] > ans)
+            {
+                ans = dp[currind];
+                lastIndex = currind;
+            }
         } 
+        vector<int>temp;
 
+        while(hash[lastIndex] != lastIndex)
+        {
+            lastIndex = hash[lastIndex];
+            temp.push_back(nums[lastIndex]);
+        }   
+
+        reverse(temp.begin(), temp.end());
+
+        for(auto it:temp)
+        {
+            cout<<it<<" ";
+        }
+        cout<<endl;
         return ans;
     }
 };
