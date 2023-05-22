@@ -14,47 +14,28 @@
 
 class Solution {
 public:
-    vector<int> topKFrequent(vector<int>& nums, int k) {
-        vector<int> res;
-        struct node
+    vector<int> topKFrequent(vector<int>& nums, int k) 
+    {
+        vector<int>ans;
+        unordered_map<int,int>mp;
+        for(int it:nums)
         {
-            int key;
-            int val;
-            node(int a, int b)
-            {
-                key = a;
-                val = b;
-            }
-        };
-        struct compare
-        {
-            bool operator()(node const& a, node const& b)
-            {
-                return a.val > b.val;
-            }
-        };
-        
-        map<int, int>mp;
-        priority_queue<node, vector<node>, compare> max_heap;
-        
-        for(int ele : nums)
-        {
-            mp[ele]++;
+            mp[it]++;
         }
-        for(auto it : mp)
+
+        priority_queue<pair<int,int>>pq;
+
+        for(auto it:mp)
         {
-            max_heap.push(node(it.first,it.second));
-            if(max_heap.size() > k)
-            {
-                max_heap.pop();
-            }
+            pq.push({it.second,it.first});
         }
-        
-        while(! max_heap.empty())
+
+        while(!pq.empty() && k--)
         {
-            res.push_back(max_heap.top().key);
-            max_heap.pop();
+            ans.push_back(pq.top().second);
+            pq.pop();
         }
-        return res;
+
+        return ans;
     }
 };
